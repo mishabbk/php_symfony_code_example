@@ -1,0 +1,19 @@
+{% extends 'dashboard/base.html.twig' %}
+
+{% block body %}
+    <h5>
+        {{ project.name }}: {{ 'enterprise.list' | trans }}
+    </h5>
+    {% include 'dashboard/project/project/view/includes/_tabs.html.twig' with { projectId: project.id } only %}
+    <div class="card">
+        <div class="card-body">
+            {% set pagination = pagination_render(enterprises) %}
+            <div class="table-responsive">
+                {% include 'dashboard/enterprise/enterprise/_table.html.twig' with { enterprises: enterprises, project: project.id } only %}
+            </div>
+            {% if pagination %}
+                {{ pagination | raw }}
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}

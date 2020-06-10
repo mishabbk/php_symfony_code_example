@@ -1,0 +1,26 @@
+{% set paths = [
+    { route: 'dashboard_project_view_date', label: 'property.date.breadcrumb' },
+    { route: 'dashboard_project_view_task', label: 'property.task.breadcrumb' },
+    { route: 'dashboard_project_view_urbanism', label: 'property.urbanism.breadcrumb' },
+    { route: 'dashboard_project_view_document', label: 'document.breadcrumb' },
+    { route: 'dashboard_project_view_invoice', label: 'property.task.invoice.breadcrumb' },
+    { route: 'dashboard_project_view_loan', label: 'bank.breadcrumb' },
+    { route: 'dashboard_project_view_agency', label: 'agency.breadcrumb' },
+    { route: 'dashboard_project_view_enterprise', label: 'enterprise.breadcrumb' },
+    { route: 'dashboard_project_view_notary', label: 'notary.breadcrumb' },
+    { route: 'dashboard_project_view_bond', label: 'bond.breadcrumb' },
+    { route: 'dashboard_project_view_notification', label: 'notification.breadcrumb' },
+    { route: 'dashboard_project_view_lot', label: 'property.lot.breadcrumb' },
+    { route: 'dashboard_project_view_offer', label: 'offer.breadcrumb' },
+    { route: 'dashboard_project_view_gallery', label: 'gallery.breadcrumb' },
+    { route: 'dashboard_project_view_report', label: 'project.report.breadcrumb' },
+] %}
+<ul class="nav nav-tabs border-0">
+    {% for path in paths %}
+        <li class="nav-item">
+            <a class="nav-link{{ app.request.get('_route') == path.route ? ' active' : '' }}" href="{{ path(path.route, {'id': projectId}) }}">
+                {{ path.label | trans }}
+            </a>
+        </li>
+    {% endfor %}
+</ul>

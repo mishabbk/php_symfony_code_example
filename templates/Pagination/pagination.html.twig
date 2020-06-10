@@ -1,0 +1,84 @@
+{% if pageCount > 1 %}
+    {%- apply spaceless -%}
+        <div class="d-flex flex-row-reverse pagination-container">
+            <ul class="pagination">
+                {% if first is defined and current != first and ( previous is not defined or first != previous ) %}
+                    <li class="page-item">
+                        <a class="page-link"
+                           data-page="{{ first }}"
+                           rel="nofollow"
+                           href="{{ path(route, route_params) }}">
+                            <i class="fas fa-angle-double-left"></i>
+                        </a>
+                    </li>
+                {% endif %}
+
+                {% if previous is defined %}
+                    <li class="page-item">
+                        {% if 1 == previous %}
+                            {% set url = path(route, route_params) %}
+                        {% else %}
+                            {% set url = path(route, query|merge({(pageParameterName): previous})) %}
+                        {% endif %}
+                        <a class="page-link"
+                           data-page="{{ previous }}"
+                           rel="nofollow"
+                           href="{{ url }}">
+                            <i class="fas fa-angle-left"></i>
+                        </a>
+                    </li>
+                {% endif %}
+
+                {% for page in pagesInRange %}
+                    {% if 1 == page %}
+                        {% set url = path(route, route_params) %}
+                    {% else %}
+                        {% set url = path(route, query|merge({(pageParameterName): page})) %}
+                    {% endif %}
+                    {% if page != current %}
+                        <li class="page-item">
+                            <a class="page-link"
+                               data-page="{{ page }}"
+                               rel="nofollow"
+                               href="{{ url }}">
+                                {{- page -}}
+                            </a>
+                        </li>
+                    {% else %}
+                        <li class="page-item active">
+                            <a class="page-link"
+                               data-page="{{ page }}"
+                               rel="nofollow"
+                               href="{{ url }}">
+                                {{- page -}}
+                            </a>
+                        </li>
+                    {% endif %}
+
+                {% endfor %}
+
+                {% if next is defined %}
+                    <li class="page-item">
+                        <a class="page-link"
+                           data-page="{{ next }}"
+                           rel="nofollow"
+                           href="{{ path(route, query|merge({(pageParameterName): next})) }}">
+                            <i class="fas fa-angle-right"></i>
+                        </a>
+                    </li>
+                {% endif %}
+
+                {% if last is defined and current != last and ( next is not defined or last != next ) %}
+                    <li class="page-item">
+                        <a class="page-link"
+                           data-page="{{ last }}"
+                           rel="nofollow"
+                           href="{{ path(route, query|merge({(pageParameterName): last})) }}">
+                            <i class="fas fa-angle-double-right"></i>
+                        </a>
+                    </li>
+                {% endif %}
+            </ul>
+        </div>
+    {% endapply %}
+{% endif %}

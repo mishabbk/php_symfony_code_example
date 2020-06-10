@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>{% block seo_title %}{{ 'seo.title.default' | trans }}{% endblock %}</title>
+        <meta name="description" content="{% block seo_description %}{{ 'seo.description.default' | trans }}{% endblock %}" />
+        <meta name="viewport" content="width=device-width">
+        <meta name="SKYPE_TOOLBAR" content="SKYPE_TOOLBAR_PARSER_COMPATIBLE" />
+        {% block stylesheets %}
+        <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('images/favicon/apple-touch-icon.png') }}">
+        <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('images/favicon/favicon-32x32.png') }}">
+        <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('images/favicon/favicon-16x16.png') }}">
+        <link rel="manifest" href="{{ asset('images/favicon/site.webmanifest') }}">
+
+        {{ encore_entry_link_tags('app_vendor_style') }}
+        {{ encore_entry_link_tags('app') }}
+        {% endblock %}
+    </head>
+    <body>
+
+        {% block header %}
+            <!----- header start --------- -->
+            <header class="kb-header inner-header">
+                <div class="kb-navi">
+                    <div class="container">
+                        <div class="kb-navi-left lft">
+                            <h1 class="top-logo">
+                                <a href="{{ url('homepage') }}">
+                                    <img src="{{ asset('images/rocketimmo.png') }}" alt="logo">
+                                </a>
+                            </h1>
+                        </div>
+
+                        <div class="kb-navi-right rgt">
+                            <div class="hamber"><span>&nbsp;</span></div>
+
+                            <nav class="kb-nav">
+                                <ul>
+                                    <li><a href="{{ path('how_it_works') }}">{{ 'header.menu.link.text.1' | trans | raw }}</a></li>
+                                    <li><a href="{{ path('contact_index') }}">{{ 'header.menu.link.text.3' | trans | raw }}</a></li>
+                                    <li><a href="{{ path('faq') }}">{{ 'header.menu.link.faq' | trans | raw }}</a></li>
+                                </ul>
+                                <ul class="only-mobile">
+                                    <li><a href="javascript:void(0)">{{ 'header.menu.link.text.5' | trans | raw }}</a></li>
+                                    <li><a href="javascript:void(0)">{{ 'header.menu.link.text.6' | trans | raw }}</a></li>
+                                    <li><a href="javascript:void(0)">{{ 'header.menu.link.text.7' | trans | raw }}</a></li>
+                                    <li><a href="javascript:void(0)">{{ 'header.menu.link.text.8' | trans | raw }}</a></li>
+                                </ul>
+                                <div class="clear"></div>
+                            </nav>
+                            <a href="{{ path('dashboard_login') }}" class="cust-area" target="_blank">{{ 'header.menu.link.text.9' | trans | raw }}</a>
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+                </div>
+            </header>
+            <!----- header end --------- -->
+        {% endblock %}
+
+        {% block body %}{% endblock %}
+
+        <footer>
+            {% block footer %}
+                {% include 'public/footer/top.html.twig' %}
+                {% include 'public/footer/credit.html.twig' %}
+                {% if app.flashes('rgpd') | length %}
+                    {% include 'public/footer/cookie.html.twig' %}
+                {% endif %}
+            {% endblock %}
+        </footer>
+
+        {% block javascripts %}
+            {{ encore_entry_script_tags('app') }}
+        {% endblock %}
+        {% block javascripts_page %}{% endblock %}
+    </body>
+</html>

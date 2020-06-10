@@ -1,0 +1,48 @@
+{% macro menu_item(item) %}
+    {% import _self as menu %}
+    {% if item.route or item.hasChildren %}
+        <li {{ item.hasChildren ? 'class="has-sub"' : '' }}>
+            <a href="{{ item.hasChildren ? 'javascript:void(0);': path(item.route, item.routeArgs) }}" class="{{  item.isActive ? 'active':'' }}">
+                {% if '/' in item.icon %}
+                    <img src="{{ asset(item.icon) }}" class="img-fluid" />
+                {% else %}
+                    <i class="{{ item.icon }}"></i>
+                {% endif %}
+                {% if item.hasChildren %}<i class="fa fa-angle-down"></i>{% endif %}
+                {{ item.label|trans }}
+            </a>
+
+            {% if item.hasChildren %}
+                <ul class="sidebar-submenu" style="{{ item.isActive  ? 'display: block;' : '' }}">
+                    {% for child in item.children %}
+                        {% if child.hasChildren %}
+                           {{ menu.menu_item(child) }}
+                        {% else %}
+                            <li class="{{ child.isActive ? 'active':'' }}">
+                                <a href="{{ path(child.route, child.routeArgs) }}">
+                                    {{ menu.menu_item_content(child, '') }}
+                                </a>
+                            </li>
+                        {% endif %}
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        </li>
+    {% else %}
+        <li>
+            {{ menu.menu_item_content(item) }}
+        </li>
+    {% endif %}
+{% endmacro %}
+
+{% macro menu_item_content(item) %}
+    {% if item.icon %}
+        {% if '/' in item.icon %}
+            {{ item.icon }}
+            <img src="{{ asset(item.icon) }}" class="img-fluid" />
+        {% else %}
+            <i class="{{ item.icon }}"></i>
+        {% endif %}
+    {% endif %}
+    {{ item.label|trans }}
+{% endmacro %}

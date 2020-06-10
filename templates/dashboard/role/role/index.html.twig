@@ -1,0 +1,57 @@
+{% extends 'dashboard/base.html.twig' %}
+
+{% block body %}
+    <div class="card">
+        <div class="card-body">
+            {% include 'dashboard/role/role/_form.html.twig' with { form: form } only %}
+        </div>
+    </div>
+    <div class="card mt-3">
+        <div class="card-header">
+            <h6>
+                {{ 'role.list' | trans }}
+            </h6>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                {% include 'dashboard/role/role/_table.html.twig' with { roles: roles, types: types } only %}
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts_page %}
+    <script type="text/javascript">
+        $(document).ready(function () {
+            const table = $('#roles-table');
+            if (table.length) {
+                table.find('.role-change').click(function() {
+                    const _this = $(this);
+                    const route = _this.closest('tr').data('route');
+                    let data = {
+                        'action': _this.attr('data-action'),
+                        'value': _this.attr('data-value'),
+                    };
+                    if (data['action'] === 'employeeType') {
+                        data['typeID'] = _this.attr('data-type-id');
+                    }
+                    $.ajax(
+                        route,
+                        {
+                            type: "POST",
+                            data : data,
+                        }
+                    ).done(function() {
+                        _this.toggleClass('table-success table-danger');
+                        _this.find('i').toggleClass('text-success fas fa-check-square text-danger far fa-minus-square');
+                        if(data['value'] === 'add') {
+                            _this.attr('data-value', 'remove');
+                        } else {
+                            _this.attr('data-value', 'add');
+                        }
+                    });
+                });
+            }
+        });
+    </script>
+{% endblock %}

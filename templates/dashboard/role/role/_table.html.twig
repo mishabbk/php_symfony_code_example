@@ -1,0 +1,49 @@
+<table class="table table-bordered table-hover table-middle text-center" id="roles-table">
+    <thead>
+        <tr>
+            <th colspan="2">
+                {{ 'role.name' | trans }}
+            </th>
+            {% for type in types %}
+                <th>
+                    {{ type.name }}
+                </th>
+            {% endfor %}
+            <th>
+                {{ 'role.associate' | trans }}
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for role in roles %}
+            <tr data-route="{{ path('dashboard_role_edit', {'id': role.id}) }}">
+                <td>
+                    {{ loop.index }}
+                </td>
+                <td class="text-left">
+                    {{ role.name }}
+                </td>
+                {% for type in types %}
+                    {% if role.employeeType.contains(type) %}
+                        <td class="role-change table-success" data-value="remove" data-action="employeeType" data-type-id="{{ type.id }}">
+                            <i class="text-success fas fa-check-square"></i>
+                        </td>
+                    {% else %}
+                        <td class="role-change table-danger" data-value="add" data-action="employeeType" data-type-id="{{ type.id }}">
+                            <i class="text-danger far fa-minus-square"></i>
+                        </td>
+                    {% endif %}
+                {% endfor %}
+                {% if role.associate %}
+                    <td class="role-change table-success" data-value="remove" data-action="associate">
+                        <i class="text-success fas fa-check-square"></i>
+                    </td>
+                {% else %}
+                    <td class="role-change table-danger" data-value="add" data-action="associate">
+                        <i class="text-danger far fa-minus-square"></i>
+                    </td>
+                {% endif %}
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>

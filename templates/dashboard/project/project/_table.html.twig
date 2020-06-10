@@ -1,0 +1,104 @@
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>
+                {{ 'project.name' | trans }}
+            </th>
+            <th>
+                {{ 'project.type' | trans }}
+            </th>
+            <th>
+                {{ 'project.investment_amount' | trans }}
+            </th>
+            <th>
+                {{ 'project.sellout_price_estimated' | trans }}
+            </th>
+            <th>
+                {{ 'project.sellout_price_real' | trans }}
+            </th>
+            <th>
+                {{ 'project.margin_estimated' | trans }}
+            </th>
+            <th>
+                {{ 'project.margin_real' | trans }}
+            </th>
+            <th>
+                {{ 'project.date_end_estimated' | trans }}
+            </th>
+            <th>
+                {{ 'project.date_end_real' | trans }}
+            </th>
+            <th>
+                {{ 'project.risk_score' | trans }}
+            </th>
+            <th>
+                {{ 'project.state' | trans }}
+            </th>
+            <th>
+                {{ 'company.sas' | trans }}
+            </th>
+            <th class="table-actions">
+                {{ 'table.actions' | trans }}
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for project in projects %}
+            <tr>
+                <td>
+                    <a href="{{ path('dashboard_project_view_date', {'id': project.id}) }}">
+                        {{ project.name }}
+                    </a>
+                </td>
+                <td>
+                    {{ project.type }}
+                </td>
+                <td>
+                    {{ project.investmentAmount | price }}
+                </td>
+                <td>
+                    {{ project.selloutPriceEstimated | price }}
+                </td>
+                <td>
+                    {{ project.selloutPriceReal | price }}
+                </td>
+                <td>
+                    {{ project.marginEstimated | price }}
+                </td>
+                <td>
+                    {{ project.marginReal | price }}
+                </td>
+                <td>
+                    {{ (project.dateEndEstimated is not empty) ? project.dateEndEstimated|format_datetime('short', 'none') : '' }}
+                </td>
+                <td>
+                    {{ (project.dateEndReal is not empty) ? project.dateEndReal|format_datetime('short', 'none') : '' }}
+                </td>
+                <td>
+                    {{ project.riskScore }}
+                </td>
+                <td>
+                    {{ project.state }}
+                </td>
+                <td>
+                    {{ project.companySas }}
+                </td>
+                <td>
+                    {% if person is defined %}
+                        <a href="{{ path('dashboard_project_edit', {'id': project.id, 'person': person}) }}">
+                            <i class="fa fa-edit"></i>
+                        </a>
+                    {% elseif sas is defined %}
+                        <a href="{{ path('dashboard_project_edit', {'id': project.id, 'sas': sas}) }}">
+                            <i class="fa fa-edit"></i>
+                        </a>
+                    {% else %}
+                        <a href="{{ path('dashboard_project_edit', {'id': project.id}) }}">
+                            <i class="fa fa-edit"></i>
+                        </a>
+                    {% endif %}
+                </td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>

@@ -1,0 +1,56 @@
+{{ form_start(form) }}
+    {{ form_row(form.name) }}
+
+<div class="card">
+    <div class="card-header">
+        <button type="button" class="pull-right btn-pink btn js-add-type-to-entity"
+                data-prototype='{% include 'dashboard/documents/document_type/prototype/type-to-entity-prototype.html.twig' with { 'typeToEntity': form.typeToEntities.vars.prototype } %}'>
+            {{ 'button.add' | trans | raw }}
+        </button>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>
+                        {{ 'document.type.entities.entity' | trans }}
+                    </th>
+                    <th>
+                        {{ 'document.type.entities.required' | trans }}
+                    </th>
+                    <th>
+                        {{ 'document.type.entities.requirement' | trans }}
+                    </th>
+                    <th>
+                        {{ 'document.type.entities.description' | trans }}
+                    </th>
+                    <th class="table-actions">
+                        {{ 'table.actions' | trans }}
+                    </th>
+                </tr>
+                </thead>
+                <tbody class="js-type-to-entities-block">
+                {% for typeToEntity in form.typeToEntities %}
+                    <tr class="js-type-to-entity-row">
+                        <td>{{ form_widget(typeToEntity.entity) }}</td>
+                        <td>{{ form_widget(typeToEntity.required) }}</td>
+                        <td>
+                            <button type="button" {% if loop.index==1 %}disabled{% endif %}
+                                    class="btn btn-danger js-delete-type-to-entity">Delete
+                            </button>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div class="d-flex d-row-space form-buttons">
+    <button type="submit" class="btn btn-lg btn-pink">
+        {{ 'form.validate' | trans }}
+    </button>
+</div>
+{{ form_end(form) }}

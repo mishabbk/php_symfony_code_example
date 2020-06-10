@@ -1,0 +1,33 @@
+{{ form_start(form) }}
+    {{ form_row(form.name) }}
+    {{ form_row(form.type) }}
+    {{ form_row(form.investmentAmount) }}
+    {{ form_row(form.selloutPriceEstimated) }}
+    {{ form_row(form.selloutPriceReal) }}
+    {{ form_row(form.marginEstimated) }}
+    {{ form_row(form.marginReal) }}
+    {{ form_row(form.dateEndEstimated) }}
+    {{ form_row(form.dateEndReal) }}
+    {{ form_row(form.riskScore) }}
+    {{ form_row(form.state) }}
+    <div class="row">
+        <div class="col-md-12 custom-padding">
+            {{ form_row(form.prospector) }}
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12 custom-padding">
+            {{ form_row(form.companySas) }}
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12 custom-padding">
+            {{ form_row(form.employees) }}
+        </div>
+    </div>
+    <div class="d-flex d-row-space form-buttons">
+        <button type="submit" class="btn btn-lg btn-pink">
+            {{ 'form.validate' | trans }}
+        </button>
+    </div>
+{{ form_end(form) }}

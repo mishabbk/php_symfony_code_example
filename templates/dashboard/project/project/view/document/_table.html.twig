@@ -1,0 +1,62 @@
+<table class="table table-striped">
+    <thead>
+    <tr>
+        <th width="30%">
+            {{ 'document.name' | trans }}
+        </th>
+        <th width="15%">
+            {{ 'document.type' | trans }}
+        </th>
+        <th width="20%">
+            {{ 'document.uploader' | trans }}
+        </th>
+        <th width="10%">
+            {{ 'document.size' | trans }}
+        </th>
+        <th width="15%">
+            {{ 'document.upload_date' | trans }}
+        </th>
+        <th class="table-actions">
+            {{ 'table.actions' | trans }}
+        </th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for document in documents %}
+        <tr>
+            <td class="js-doc-name-{{ document.id }}">
+                <a href="{{ vich_uploader_asset(document, 'file') }}" target="_blank">{{ document.name }}</a>
+            </td>
+            <td class="js-doc-type-{{ document.id }}">
+                {{ render(controller(
+                    'App\\Controller\\Dashboard\\Document\\DocumentController::ajaxSelectDocumentType', {
+                        'id' : document.id
+                    }
+                )) }}
+            </td>
+            <td>{{ document.person.firstName ~ ' ' ~ document.person.lastName }}</td>
+            <td>{{ document.size }}</td>
+            <td>{{ document.createdAt|format_datetime('short', 'none') }}</td>
+            <td>
+                <div class="btn-group">
+                    <div class="btn-group dropleft" role="group">
+                        <button type="button" class="btn btn-secondary btn-pink dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <span class="sr-only">Toggle Dropleft</span>
+                        </button>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item js-modal-document" href="{{ path('dashboard_document_modal_edit_document', {'id': document.id}) }}">
+                                <i class="fas fa-edit"></i> {{ 'button.edit' | trans | raw }}</a>
+                            <a class="dropdown-item" href="{{ path('dashboard_document_delete', {'id': document.id}) }}">
+                                <i class="fas fa-trash-alt"></i> {{ 'button.delete' | trans | raw }}
+                            </a>
+                        </div>
+                    </div>
+                    <a href="{{ path('dashboard_document_download', {'id': document.id}) }}" class="btn btn-secondary btn-pink">
+                        Download
+                    </a>
+                </div>
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>

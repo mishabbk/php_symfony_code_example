@@ -1,0 +1,66 @@
+{% extends 'dashboard/base.html.twig' %}
+
+{% block body %}
+    <div class="row form-top">
+        <div class="col-2 offset-10">
+            <a href="{{ path('dashboard_project_prospector_create') }}" class="btn-pink btn btn-block">
+                {{ 'button.add' | trans | raw }}
+            </a>
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-header">
+            <h6>
+                {{ 'project.prospector.list' | trans }}
+            </h6>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th width="25%">
+                                {{ 'project.prospector.identity.person' | trans }}
+                            </th>
+                            <th width="25%">
+                                {{ 'project.prospector.identity.company' | trans }}
+                            </th>
+                            <th width="25%">
+                                {{ 'project.prospector.commission_amount' | trans }}
+                            </th>
+                            <th width="20%">
+                                {{ 'project.prospector.commission_percent' | trans }}
+                            </th>
+                            <th class="table-actions">
+                                {{ 'table.actions' | trans }}
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for prospector in prospectors %}
+                        <tr>
+                            <td>
+                                {{ prospector.person }}
+                            </td>
+                            <td>
+                                {{ prospector.company }}
+                            </td>
+                            <td>
+                                {{ prospector.commissionAmount }}
+                            </td>
+                            <td>
+                                {{ prospector.commissionPercent }}
+                            </td>
+                            <td>
+                                <a href="{{ path('dashboard_project_prospector_edit', {'id': prospector.id}) }}">
+                                    <i class="fa fa-edit"></i>
+                                </a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+{% endblock %}

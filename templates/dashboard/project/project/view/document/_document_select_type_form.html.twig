@@ -1,0 +1,3 @@
+{{ form_start(form, { 'method': 'post', 'action': path('dashboard_document_ajax_select_document_type', { 'id' : app.request.get('id') }) }) }}
+    {{ form_widget(form.type , {'attr': {'class': 'js-automatic-select'}, 'id': form.type.vars.id ~ 'now'|date('iu')}) }}
+{{ form_end(form) }}

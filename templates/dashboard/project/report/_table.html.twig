@@ -1,0 +1,38 @@
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th width="35%">
+                {{ 'project.report.title' | trans }}
+            </th>
+            <th width="35%">
+                {{ 'project.report.person' | trans }}
+            </th>
+            <th width="20%">
+                {{ 'project.report.created_at' | trans }}
+            </th>
+            <th class="table-actions">
+                {{ 'table.actions' | trans }}
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for report in reports %}
+            <tr>
+                <td>
+                    {{ report.title }}
+                </td>
+                <td>
+                    {{ report.person }}
+                </td>
+                <td>
+                    {{ report.createdAt|format_datetime('short', 'none') }}
+                </td>
+                <td>
+                    <a href="{{ path('dashboard_project_report_edit', {'id': report.project.id, 'report': report.id}) }}">
+                        <i class="fa fa-edit"></i>
+                    </a>
+                </td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>

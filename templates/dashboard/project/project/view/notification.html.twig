@@ -1,0 +1,32 @@
+{% extends 'dashboard/base.html.twig' %}
+
+{% block body %}
+    <h5>
+        {{ project.name }}: {{ 'notification.list' | trans }}
+    </h5>
+    {% include 'dashboard/project/project/view/includes/_tabs.html.twig' with { projectId: project.id } only %}
+    <div class="card">
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for notification in notifications %}
+                        <tr>
+                            <td></td>
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td>{{ 'result.empty' | trans }}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+{% endblock %}

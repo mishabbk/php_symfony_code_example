@@ -1,0 +1,65 @@
+{% extends 'dashboard/base.html.twig' %}
+
+{% block body %}
+    <h5>
+        {{ project.name }}: {{ 'document.list' | trans }}
+    </h5>
+    {% include 'dashboard/project/project/view/includes/_tabs.html.twig' with { projectId: project.id } only %}
+    <div class="row form-top mt-5 mb-5">
+        <div class="col-8">
+            <div class="card custom-card w-100 h-100">
+                <div class="card-body">
+                    {{ form_start(searchForm, {'attr': {'class': 'form-search d-flex align-items-center h-100'}}) }}
+                    <div class="flex-fill mr-4">
+                        {{ form_widget(searchForm.search) }}
+                    </div>
+                     <div>
+                        <button type="submit" class="btn btn-pink btn-block">
+                            {{ 'form.search' | trans }}
+                        </button>
+                     </div>
+                    {{ form_end(searchForm) }}
+                </div>
+            </div>
+        </div>
+        <div class="col-4">
+            <div class="card custom-card custom-drag">
+                {{ form_start(documentUploadForm, {'attr': {'class': 'automatic-upload'} }) }}
+                    {{ form_widget(documentUploadForm) }}
+                {{ form_end(documentUploadForm) }}
+            </div>
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-body">
+            {% set pagination = pagination_render(documents) %}
+            <div class="table-responsive">
+                {% include 'dashboard/project/project/view/document/_table.html.twig' with { documents: documents } only %}
+            </div>
+            {% if pagination %}
+                {{ pagination | raw }}
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="modal fade" id="modalEditDocument" tabindex="1" role="dialog" aria-labelledby="modalEditDocument" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">{{ 'project.document.edit' | trans }}</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="card">
+                    <div class="card-body card-body--project-document">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts_page %}
+    {{ encore_entry_script_tags('dashboard_form_project') }}
+{% endblock javascripts_page %}

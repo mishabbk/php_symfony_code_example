@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+
+    <title>
+        {% block title %}
+            {% if wo_breadcrumbs()|length %}
+                {% for b in wo_breadcrumbs() | reverse %}
+                    {% if not loop.last %}
+                        {% if b.translate is defined and b.translate == true %}
+                            {{- b.text | trans(b.translationParameters) | raw -}}
+                        {% else %}
+                            {{- b.text -}}
+                        {% endif %} |
+                    {% endif %}
+                {% endfor %}
+            {% endif %}
+            Rocket-immo.fr
+        {% endblock %}
+    </title>
+    <meta name="viewport" content="width=device-width">
+    {% block stylesheets %}
+        <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('images/favicon/apple-touch-icon.png') }}">
+        <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('images/favicon/favicon-32x32.png') }}">
+        <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('images/favicon/favicon-16x16.png') }}">
+        <link rel="manifest" href="{{ asset('images/favicon/site.webmanifest') }}">
+
+        {{ encore_entry_link_tags('dashboard') }}
+    {% endblock %}
+</head>
+<body>
+<!----- header start --------- -->
+<header class="dashbord-header">
+    <h1 class="dashbord-logo"><a href="{{ path('dashboard_dashboard') }}"><img
+                    src="{{ asset('dashboard/images/rocketimmo.png') }}" class="img-fluid"></a></h1>
+    <div class="header-navigation">
+        <div id="menuToggle">
+            <button id="btn"><span></span><span></span><span></span></button>
+        </div>
+        <nav>
+            <ul>
+                <li>
+                    <div class="drop-box">
+                        <a class="drop-text" href="javascript:void(0);">
+                            <span class="header-icon"><img src="{{ asset('dashboard/images/user.png') }}"
+                                                           class="img-fluid"></span>
+                            {{ app.user }}
+                            <i class="fa fa-angle-down rotate"></i>
+                        </a>
+                    </div>
+                    <ul class="dropdown-list">
+                        <li><a href="{{ path('dashboard_logout') }}">{{ 'logout' | trans }}</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</header>
+<!----- header end --------- -->
+
+<!----- main start --------- -->
+<main class="dashboard-wrap">
+
+    <aside class="dashboard-sidebar">
+        <div class="sidebar-search">
+            <form action="#" class="sidebar-form" autocomplete="off">
+                <div class="input-group">
+                    <input type="text" name="q" class="form-control" autocomplete="Off"
+                           placeholder="{{ 'search' | trans }}">
+                    <div class="input-group-append">
+                        <button type="reset" class="btn"><i class="fas fa-search"></i></button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="sidebar-menu">
+            <div class="treeview-shortcut">
+                <i data-tree-up=".sidebar-menu" class="shortcut fas fa-chevron-circle-up"></i>
+                <i data-tree-down=".sidebar-menu" class="shortcut fas fa-chevron-circle-down"></i>
+            </div>
+            {{ render(controller('App\\Controller\\Dashboard\\Menu\\MenuController::menuAction', {'request': app.request})) }}
+        </div>
+        <div class="outer">
+            <div class="inner">
+                <label>Back</label>
+            </div>
+        </div>
+    </aside>
+    <section class="dashboard-content">
+        {% block header %}
+            <div class="main-header">{{ wo_render_breadcrumbs() }}</div>
+        {% endblock header %}
+        <div class="dashboard-layout">
+            {% block flashes %}
+                {% for flashMessage in app.session.flashbag.get('success') %}
+                    <div class="alert alert-success">{{ flashMessage | trans | raw }}</div>
+                {% endfor %}
+                {% for flashMessage in app.session.flashbag.get('error') %}
+                    <div class="alert alert-danger">{{ flashMessage | trans | raw }}</div>
+                {% endfor %}
+            {% endblock %}
+            {% block body %}{% endblock body %}
+        </div>
+        {% block footer %}
+            <footer class="dashboard-footer">
+                <p>©2020 Rocketimmo, All Rights Reserved.
+                <p>
+            </footer>
+        {% endblock footer %}
+    </section>
+</main>
+<!----- main end --------- -->
+
+<span class="scroll-top"><i class="fa fa-angle-up" aria-hidden="true"></i></span>
+{% block javascripts %}
+    <script src="https://maps.googleapis.com/maps/api/js?key={{ getenv('GOOGLE_API_KEY') }}&libraries=places"></script>
+    {{ encore_entry_script_tags('dashboard') }}
+    <script>
+        $(function() {
+            $('.drop-box').click(function() {
+                $(this).next("ul.dropdown-list").fadeToggle();
+            });
+            $(".drop-box").click(function() {
+                $(this).find('.rotate').toggleClass("down");
+            });
+        });
+        $(document).ready(function(e) {
+            $(".scroll-top").click(function() {
+                $("html, body").animate({scrollTop: 0}, "slow");
+                return false;
+            });
+            $('.tabs .clickme a').click(function() {
+                $('.tabs .clickme a').removeClass('activelink');
+                $(this).addClass('activelink');
+                var tagid = $(this).data('tag');
+                $('.list').removeClass('active').addClass('hide');
+                $('#' + tagid).addClass('active').removeClass('hide');
+            });
+            $(".card-list .toggle-acodian").click(function() {
+                $(this).parent().parent().find(".card-list.sub-card").slideToggle(300);
+            });
+
+            $("#file").on('change', function() {
+                $(".file-custom").html($(this).val());
+            });
+
+        });
+    </script>
+
+    <script>
+        $(document).ready(function() {
+            $("#filterForm").submit(function(e) {
+                e.preventDefault();
+            });
+
+            $('.confirm').click(function() {
+                return confirm("{{ 'js.confirm' | trans }}");
+            });
+        });
+
+    </script>
+
+{% endblock javascripts %}
+
+{% block javascripts_page %}{% endblock javascripts_page %}
+</body>
+</html>

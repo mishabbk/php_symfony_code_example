@@ -1,0 +1,20 @@
+<div class="form-group">
+    <label class="" for="project_prospector_identity">{{ 'project.prospector.identity' | trans }}</label>
+    <select id="project_prospector_identity" class="form-control">
+        <option value="person" {{ (identity != 'company') ? 'selected' : '' }}>
+            {{ 'project.prospector.identity.person' | trans }}
+        </option>
+        <option value="company" {{ (identity == 'company') ? 'selected' : '' }}>
+            {{ 'project.prospector.identity.company' | trans }}
+        </option>
+    </select>
+</div>
+
+<div class="person_form_block" style="{{ (identity == 'company') ? 'display: none;' : '' }}">
+    {% include 'dashboard/project/prospector/_form_identity.html.twig' with { 'form': formPerson } %}
+
+</div>
+<div class="company_form_block" style="{{ (identity != 'company') ? 'display: none;' : '' }}">
+    {% include 'dashboard/project/prospector/_form_identity.html.twig' with { 'form': formCompany } %}
+</div>
+

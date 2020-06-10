@@ -1,0 +1,11 @@
+<tr class="js-type-to-entity-row">
+    <td>{{ form_widget(typeToEntity.entity) }}</td>
+    <td>{{ form_widget(typeToEntity.required) }}</td>
+    <td>{{ form_widget(typeToEntity.requirement) }}</td>
+    <td>{{ form_widget(typeToEntity.description) }}</td>
+    <td>
+        <button type="button" class="btn btn-danger js-delete-type-to-entity">
+            {{ 'button.delete' | trans | raw }}
+        </button>
+    </td>
+</tr>

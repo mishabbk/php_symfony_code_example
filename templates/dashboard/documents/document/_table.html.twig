@@ -1,0 +1,32 @@
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th width="45%">
+                {{ 'document.name' | trans }}
+            </th>
+            <th width="30%">
+                {{ 'document.type' | trans }}
+            </th>
+            <th width="20%">
+                {{ 'document.size' | trans }}
+            </th>
+            <th class="table-actions">
+                {{ 'table.actions' | trans }}
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for document in documents %}
+            <tr>
+                <td>{{ document.name }}</td>
+                <td>{{ document.type }}</td>
+                <td>{{ document.size }}</td>
+                <td>
+                    <a href="#">
+                        <i class="fa fa-download"></i>
+                    </a>
+                </td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>

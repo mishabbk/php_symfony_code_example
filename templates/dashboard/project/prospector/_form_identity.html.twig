@@ -1,0 +1,16 @@
+{{ form_start(form) }}
+    {% if form.personExist is defined %}
+        {{ form_row(form.personExist) }}
+        <hr>
+    {% endif %}
+    {% if form.companyExist is defined %}
+        {{ form_row(form.companyExist) }}
+        <hr>
+    {% endif %}
+    {{ form_widget(form) }}
+    <div class="d-flex d-row-space form-buttons pl">
+        <button type="submit" class="btn btn-lg btn-pink">
+            {{ 'form.validate' | trans }}
+        </button>
+    </div>
+{{ form_end(form) }}

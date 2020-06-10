@@ -1,0 +1,38 @@
+{%- block _price_widget -%}
+<div class="budget">
+    <div class="header price-header">
+        <div class="title clearfix">
+            <span>{{ 'home.page.caption.howmuchisyourproject' | trans | raw }}</span>
+            <input class="pull-right cradit" value=""/>
+        </div>
+    </div>
+    <div class="content">
+        {% set type = 'range' %}
+        {{ block('form_widget_simple') }}
+    </div>
+    <div class="range-footer">
+        <span class="pull-left">€ {{ attr.min | format_number(locale='de') }}</span>
+        <span class="pull-right">€ {{ attr.max | format_number(locale='de') }}+</span>
+    </div>
+</div>
+{%- endblock -%}
+
+
+{%- block _month_widget -%}
+<div class="budget">
+    <div class="header month-header">
+        <div class="title clearfix">
+            <span>{{ 'home.page.caption.howlongyourproject' | trans | raw }}</span>
+            <input class="pull-right cradit" value=""/>
+        </div>
+    </div>
+    <div class="content">
+        {% set type = 'range' %}
+        {{ block('form_widget_simple') }}
+    </div>
+    <div class="range-footer">
+        <span class="pull-left">{{ attr.min | format_number(locale='de') }} {{ 'home.page.label.month' | trans | raw }}</span>
+        <span class="pull-right">{{ attr.max | format_number(locale='de') }} {{ 'home.page.label.months' | trans | raw }}</span>
+    </div>
+</div>
+{%- endblock -%}

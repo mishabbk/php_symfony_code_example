@@ -1,0 +1,103 @@
+{% extends 'dashboard/base.html.twig' %}
+
+{% block body %}
+    <div class="form-top">
+        {{ form_start(searchForm, {'attr': {'class': 'form-search d-flex'}}) }}
+        <div class="flex-fill">
+            {{ form_row(searchForm.search) }}
+        </div>
+        <div class="flex-fill">
+            {{ form_row(searchForm.person) }}
+        </div>
+        <div class="flex-fill">
+            <button type="submit" class="btn btn-pink btn-block">
+                {{ 'form.search' | trans }}
+            </button>
+        </div>
+        {{ form_end(searchForm) }}
+    </div>
+    <div class="card">
+        <div class="card-header">
+            <h6>
+                {{ 'document.list' | trans }}
+            </h6>
+        </div>
+        <div class="card-body">
+            {% set pagination = pagination_render(documents) %}
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th>
+                            {{ 'document.name' | trans }}
+                        </th>
+                        <th>
+                            {{ 'document.type' | trans }}
+                        </th>
+                        <th>
+                            {{ 'document.person' | trans }}
+                        </th>
+                        <th>
+                            {{ 'document.size' | trans }}
+                        </th>
+                        <th>
+                            {{ 'document.date' | trans }}
+                        </th>
+                        <th>
+                            {{ 'document.related' | trans }}
+                        </th>
+                        <th class="table-actions">
+                            {{ 'table.actions' | trans }}
+                        </th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for document in documents %}
+                        <tr>
+                            <td>
+                                <a href="{{ vich_uploader_asset(document, 'file') }}" target="_blank">
+                                    {{ document }}
+                                </a>
+                            </td>
+                            <td>
+                                {{ document.type }}
+                            </td>
+                            <td>
+                                {{ document.person }}
+                            </td>
+                            <td>
+                                {{ document.size | format_bytes }}
+                            </td>
+                            <td>
+                                {{ document.updatedAt | format_datetime('short', 'short') }}
+                            </td>
+                            <td>
+                                {{ document | document_parent_link }}
+                            </td>
+                            <td>
+                                {{ button_dropdown(
+                                    'btn-pink',
+                                    [
+                                        path('dashboard_document_download', {'id': document.id}),
+                                        'button.download' | trans
+                                    ],
+                                    [
+                                        [
+                                            path('dashboard_document_delete', {'id': document.id}),
+                                            'button.delete' | trans,
+                                            {'class': 'confirm'}
+                                        ]
+                                    ]
+                                ) }}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            {% if pagination %}
+                {{ pagination | raw }}
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}

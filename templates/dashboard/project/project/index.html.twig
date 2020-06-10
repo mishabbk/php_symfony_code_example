@@ -1,0 +1,27 @@
+{% extends 'dashboard/base.html.twig' %}
+
+{% block body %}
+    <div class="row form-top">
+        <div class="col-2 offset-10">
+            <a href="{{ path('dashboard_project_create') }}" class="btn-pink btn btn-block">
+                {{ 'button.add' | trans | raw }}
+            </a>
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-header">
+            <h6>
+                {{ 'project.list' | trans }}
+            </h6>
+        </div>
+        <div class="card-body">
+            {% set pagination = pagination_render(projects) %}
+            <div class="table-responsive">
+                {% include 'dashboard/project/project/_table.html.twig' with { projects: projects } only %}
+            </div>
+            {% if pagination %}
+                {{ pagination | raw }}
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}

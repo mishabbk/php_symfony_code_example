@@ -1,0 +1,30 @@
+{% extends 'dashboard/base.html.twig' %}
+
+{% block body %}
+    <div class="card">
+        <div class="card-body">
+            {{ include('dashboard/project/prospector/_form.html.twig') }}
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts_page %}
+    <script type="text/javascript">
+        $(document).ready(function () {
+            let $personBlock = $('.person_form_block');
+            let $companyBlock = $('.company_form_block');
+
+            $(document).on('change', '#project_prospector_identity', function () {
+                if ($(this).val() === 'company') {
+                    $personBlock.hide();
+                    $companyBlock.show();
+                } else {
+                    $companyBlock.hide();
+                    $personBlock.show();
+                }
+            });
+        });
+    </script>
+
+    {{ encore_entry_script_tags('dashboard_form_entity_existing') }}
+{% endblock %}

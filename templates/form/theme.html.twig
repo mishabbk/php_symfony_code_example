@@ -1,0 +1,115 @@
+{% extends 'bootstrap_4_layout.html.twig' %}
+
+{% block choice_group_row %}
+    {{ form_row(form, {compound: false}) }}
+{% endblock %}
+
+{% block choice_group_widget %}
+    <div {{ block('widget_container_attributes') }}>
+        <div class="btn-choice-container">
+            <div class="btn-group">
+                {% for child in form %}
+                    {% if value is defined and value == child.vars.value %}
+                        {% set checked = true %}
+                    {% else %}
+                        {% set checked = child.vars.checked %}
+                    {% endif %}
+                    <button data-target="#{{ child.vars.id }}" type="button"
+                            class="btn-choice-group btn
+                                    {% if checked %}btn-primary{% else %}btn-default{% endif %}
+                                    {% if (child.vars.disabled is defined and child.vars.disabled is same as(true))
+                                or (child.vars.attr.readonly is defined and child.vars.attr.readonly is same as(true)) %}disabled{% endif %}"
+                    >{{ child.vars.label | trans }}</button>
+                {% endfor %}
+            </div>
+            <div class="d-none">
+                {% for child in form %}
+                    {% if value is defined and value == child.vars.value %}
+                        {% set checked = true %}
+                    {% else %}
+                        {% set checked = child.vars.checked %}
+                    {% endif %}
+                    {{- form_widget(child, {
+                        valid: valid,
+                        attr: {checked: checked},
+                    }) -}}
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block choice_remote_widget %}
+    <div class="choice-remote-container">
+        {{ form_widget(form) }}
+    </div>
+{% endblock %}
+
+{%- block form_widget_simple_group -%}
+    <div class="input-group">
+        {{ block('form_widget_simple') }}
+        {%- if input_addon is defined -%}
+        <div class="input-group-append">
+            <span class="input-group-text">{{ input_addon }}</span>
+        </div>
+        {%- endif -%}
+    </div>
+{%- endblock -%}
+
+{%- block multiple_file_widget -%}
+    <div class="{{ attr.class }}">
+        <div class="form-group">
+            {{ form_widget(form.files) }}
+        </div>
+        {{ form_errors(form.files) }}
+        {% if form.filesList is defined %}
+            {{ form_widget(form.filesList) }}
+        {% endif %}
+    </div>
+{%- endblock -%}
+
+{%- block files_list_widget -%}
+    <ul class="upload-preview list-group">
+        {% for child in form.children %}
+            {{ form_widget(child) }}
+        {% endfor %}
+    </ul>
+{% endblock %}
+
+{%- block files_list_item_widget -%}
+    <li class="uploaded documents list-group-item " data-edit-path="{{ path('dashboard_document_name_edit', {'id': value.id}) }}">
+        {% for child in form.children %}
+            {{ form_widget(child) }}
+        {% endfor %}
+        <div class="documents_item d-flex justify-content-between align-items-center">
+            {% include 'dashboard/documents/document/list/item.html.twig' with { document: value } only %}
+        </div>
+    </li>
+{%- endblock -%}
+
+{%- block files_list_item_name_widget -%}
+    <div class="input-group hide">
+        {{ form_widget(form) }}
+        <div class="input-group-append">
+            <button class="btn btn-pink document_name_update_btn" type="submit">
+                {{ 'form.validate' | trans }}
+            </button>
+        </div>
+    </div>
+{%- endblock -%}
+
+{%- block vat_number_row -%}
+    <div class="vat-number-container form-group">
+        {{ form_label(form) }}
+        <div class="input-group">
+            {{ form_widget(form) }}
+            <div class="input-group-append">
+                <a href="https://ec.europa.eu/taxation_customs/vies/"
+                   class="input-group-text"
+                   target="_blank">
+                    VIES
+                </a>
+            </div>
+        </div>
+    </div>
+{%- endblock -%}

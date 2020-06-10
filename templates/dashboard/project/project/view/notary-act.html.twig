@@ -1,0 +1,28 @@
+{% extends 'dashboard/base.html.twig' %}
+
+{% block body %}
+    <div class="row form-top">
+        <div class="col-sm-10">
+            <h5>
+                {{ project.name }}: {{ 'notary.act.list' | trans }}
+            </h5>
+        </div>
+        <div class="col-2">
+            <a href="{{ path('dashboard_notary_act_create', { project: project.id }) }}" class="btn-pink btn btn-block">
+                {{ 'button.add' | trans | raw }}
+            </a>
+        </div>
+    </div>
+    {% include 'dashboard/project/project/view/includes/_tabs.html.twig' with { projectId: project.id } only %}
+    <div class="card">
+        <div class="card-body">
+            {% set pagination = pagination_render(acts) %}
+            <div class="table-responsive">
+                {% include 'dashboard/notary/act/act/_table.html.twig' with { acts: acts, project: project.id } only %}
+            </div>
+            {% if pagination %}
+                {{ pagination | raw }}
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}

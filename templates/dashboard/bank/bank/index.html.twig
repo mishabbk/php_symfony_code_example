@@ -1,0 +1,62 @@
+{% extends 'dashboard/base.html.twig' %}
+
+{% block body %}
+    <div class="row form-top">
+        <div class="col-4">
+            {{ form_start(searchForm) }}
+            {{ form_end(searchForm) }}
+        </div>
+        <div class="col-2 offset-6">
+            <a href="{{ path('dashboard_bank_create') }}" class="btn-pink btn btn-block">
+                {{ 'button.add' | trans | raw }}
+            </a>
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-header">
+            <h6>
+                {{ 'bank.list' | trans }}
+            </h6>
+        </div>
+        <div class="card-body">
+            {% set pagination = pagination_render(banks) %}
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th width="40%">
+                                {{ 'bank.name' | trans }}
+                            </th>
+                            <th width="55%">
+                                {{ 'address' | trans }}
+                            </th>
+                            <th class="table-actions">
+                                {{ 'table.actions' | trans }}
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for bank in banks %}
+                        <tr>
+                            <td>{{ bank.name }}</td>
+                            <td>{{ bank.address }}</td>
+                            <td>
+                                {{ button_dropdown(
+                                    'btn-pink',
+                                    [
+                                        path('dashboard_bank_edit', {'id': bank.id}),
+                                        'button.edit' | trans
+                                    ]
+                                ) }}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+                {% if pagination %}
+                    {{ pagination | raw }}
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

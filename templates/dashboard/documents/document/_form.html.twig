@@ -1,0 +1,11 @@
+{{ form_start(form) }}
+    <div class="drag-and-drop">
+        {{ form_widget(form.files) }}
+    </div>
+
+<div class="d-flex d-row-space form-buttons">
+    <button type="submit" class="btn btn-lg btn-pink">
+        {{ 'form.validate' | trans }}
+    </button>
+</div>
+{{ form_end(form) }}

@@ -1,0 +1,6 @@
+{% from 'dashboard/macros/menu/menu-item.html.twig' import menu_item %}
+<ul>
+    {% for item in menu %}
+        {{ menu_item(item) }}
+    {% endfor %}
+</ul>

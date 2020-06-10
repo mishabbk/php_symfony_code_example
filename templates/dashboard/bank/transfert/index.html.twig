@@ -1,0 +1,86 @@
+{% extends 'dashboard/base.html.twig' %}
+
+{% block body %}
+    <div class="row form-top">
+        <div class="col-10">
+            {{ form_start(searchForm, {'attr': {'class': 'form-search d-flex'}}) }}
+            <div class="flex-fill">
+                {{ form_widget(searchForm.search) }}
+            </div>
+            <div class="flex-fill">
+                {{ form_widget(searchForm.bankAccount) }}
+            </div>
+            <div class="flex-fill">
+                {{ form_widget(searchForm.movement) }}
+            </div>
+            <div class="flex-fill">
+                <button type="submit" class="btn btn-pink btn-block">
+                    {{ 'form.search' | trans }}
+                </button>
+            </div>
+            {{ form_end(searchForm) }}
+        </div>
+        <div class="col-2">
+            <a href="{{ path('dashboard_bank_transfert_create') }}" class="btn-pink btn btn-block">
+                {{ 'button.add' | trans | raw }}
+            </a>
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-header">
+            <h6>
+                {{ 'bank.transfert.list' | trans }}
+            </h6>
+        </div>
+        <div class="card-body">
+            {% set pagination = pagination_render(transferts) %}
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th width="20%">
+                                {{ 'bank.account' | trans }}
+                            </th>
+                            <th width="15%">
+                                {{ 'bank.transfert.movement' | trans }}
+                            </th>
+                            <th width="15%">
+                                {{ 'bank.transfert.date' | trans }}
+                            </th>
+                            <th width="15%">
+                                {{ 'bank.transfert.amount' | trans }}
+                            </th>
+                            <th width="15%">
+                                {{ 'bank.transfert.reference' | trans }}
+                            </th>
+                            <th width="15%">
+                                {{ 'bank.transfert.comment' | trans }}
+                            </th>
+                            <th class="table-actions">
+                                {{ 'table.actions' | trans }}
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for transfert in transferts %}
+                        <tr>
+                            <td>{{ transfert.bankAccount }}</td>
+                            <td>{{ transfert.movement }}</td>
+                            <td>{{ transfert.date|format_datetime('short', 'none') }}</td>
+                            <td>{{ transfert.amount }}</td>
+                            <td>{{ transfert.reference }}</td>
+                            <td>{{ transfert.comment|raw }}</td>
+                            <td>
+                                <a href="{{ path('dashboard_bank_transfert_edit', {'id': transfert.id}) }}">
+                                    <i class="fa fa-edit"></i>
+                                </a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            {% set pagination = pagination_render(transferts) %}
+        </div>
+    </div>
+{% endblock %}
